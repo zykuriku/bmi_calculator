@@ -4,19 +4,21 @@ import 'small_card.dart';
 import 'big_card.dart';
 import 'gender.dart';
 import 'package:animated_weight_picker/animated_weight_picker.dart';
+import 'result.dart';
 
 const bottomCheight = 70.0;
 const color1 = Color(0xFFCCB4EE);
 const color2 = Color(0xFFC39BEA);
+int age = 15;
 
 enum Genderr { male, female, nothing }
 
 final double min = 0;
 final double max = 100;
-String selectedValue = '';
+String weight = '';
 @override
 void initState() {
-  selectedValue = min.toString();
+  weight = min.toString();
   initState();
 }
 
@@ -75,8 +77,39 @@ class _InputPageState extends State<InputPage> {
                   child: BigCard(
                       bchild: Expanded(
                           child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
-                          Center(child: Text('Age')),
+                          Center(
+                            child: Text('Age'),
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              RoundButton(
+                                onPressed: () {
+                                  setState(() {
+                                    age--;
+                                  });
+                                },
+                                icon: FontAwesomeIcons.minus,
+                              ),
+                              SizedBox(
+                                width: 15.0,
+                              ),
+                              Text(age.toString()),
+                              SizedBox(
+                                width: 15.0,
+                              ),
+                              RoundButton(
+                                onPressed: () {
+                                  setState(() {
+                                    age++;
+                                  });
+                                },
+                                icon: FontAwesomeIcons.plus,
+                              )
+                            ],
+                          )
                         ],
                       )),
                       colour: color1)),
@@ -152,7 +185,7 @@ class _InputPageState extends State<InputPage> {
                             suffixTextColor: Colors.black,
                             onChange: (newValue) {
                               setState(() {
-                                selectedValue = newValue;
+                                weight = newValue;
                               });
                             },
                           ),
@@ -163,14 +196,15 @@ class _InputPageState extends State<InputPage> {
                 child: TextButton(
                   child: Center(
                       child: Text(
-                    'SUBMIT',
+                    'Calculate',
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 18.0,
                     ),
                   )),
                   onPressed: () {
-                    print('ptesf');
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => Result()));
                   },
                 ),
                 margin: EdgeInsets.all(5.0),
@@ -183,5 +217,28 @@ class _InputPageState extends State<InputPage> {
                 ),
               ),
             ]));
+  }
+}
+
+class RoundButton extends StatelessWidget {
+  final IconData icon;
+  final VoidCallback onPressed;
+
+  RoundButton({required this.icon, required this.onPressed});
+
+  @override
+  Widget build(BuildContext context) {
+    return RawMaterialButton(
+        constraints: BoxConstraints.tightFor(
+          width: 50.0,
+          height: 50.0,
+        ),
+        onPressed: onPressed,
+        fillColor: color2,
+        child: Icon(icon),
+        elevation: 6.0,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(5.0)),
+        ));
   }
 }
