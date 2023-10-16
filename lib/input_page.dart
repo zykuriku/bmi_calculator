@@ -27,6 +27,7 @@ class InputPage extends StatefulWidget {
 
 class _InputPageState extends State<InputPage> {
   Genderr selectedGender = Genderr.nothing;
+  int height = 150;
 
   @override
   Widget build(BuildContext context) {
@@ -84,15 +85,43 @@ class _InputPageState extends State<InputPage> {
                   child: BigCard(
                       bchild: Expanded(
                           child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
                           Center(
                               child: Text(
-                            'Set your height',
+                            'Set height',
                             style: TextStyle(
                               color: Colors.black,
                               fontSize: 15.0,
                             ),
                           )),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.baseline,
+                            textBaseline: TextBaseline.alphabetic,
+                            children: [
+                              Text(
+                                height.toString(),
+                                style: TextStyle(
+                                  fontSize: 20.0,
+                                ),
+                              ),
+                              Text('cm'),
+                            ],
+                          ),
+                          Slider(
+                            value: height.toDouble(),
+                            onChanged: (double newValue) {
+                              setState(() {
+                                height = newValue.round();
+                              });
+                            },
+                            min: 130.0,
+                            max: 200.0,
+                            activeColor: Color(0xFF994CD3),
+                            inactiveColor: color2,
+                            thumbColor: Color(0xFF994CD3),
+                          )
                         ],
                       )),
                       colour: color1)),
@@ -110,24 +139,22 @@ class _InputPageState extends State<InputPage> {
                               fontSize: 18.0,
                             ),
                           )),
-                          SizedBox.square(
-                            child: AnimatedWeightPicker(
-                              min: min,
-                              max: max,
-                              squeeze: 5.0,
-                              majorIntervalTextColor: Color(0xFFBF7EF1),
-                              dialColor: Color(0xFF994CD3),
-                              majorIntervalColor: color2,
-                              subIntervalColor: color2,
-                              minorIntervalColor: color2,
-                              selectedValueColor: Colors.black,
-                              suffixTextColor: Colors.black,
-                              onChange: (newValue) {
-                                setState(() {
-                                  selectedValue = newValue;
-                                });
-                              },
-                            ),
+                          AnimatedWeightPicker(
+                            min: min,
+                            max: max,
+                            squeeze: 5.0,
+                            majorIntervalTextColor: Color(0xFFBF7EF1),
+                            dialColor: Color(0xFF994CD3),
+                            majorIntervalColor: color2,
+                            subIntervalColor: color2,
+                            minorIntervalColor: color2,
+                            selectedValueColor: Colors.black,
+                            suffixTextColor: Colors.black,
+                            onChange: (newValue) {
+                              setState(() {
+                                selectedValue = newValue;
+                              });
+                            },
                           ),
                         ],
                       ),
