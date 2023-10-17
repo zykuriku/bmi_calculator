@@ -5,6 +5,8 @@ import 'big_card.dart';
 import 'gender.dart';
 import 'package:animated_weight_picker/animated_weight_picker.dart';
 import 'result.dart';
+import 'bottom_button.dart';
+import 'calculate_bmi.dart';
 
 const bottomCheight = 70.0;
 const color1 = Color(0xFFCCB4EE);
@@ -192,29 +194,19 @@ class _InputPageState extends State<InputPage> {
                         ],
                       ),
                       colour: color1)),
-              Container(
-                child: TextButton(
-                  child: Center(
-                      child: Text(
-                    'Calculate',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 18.0,
-                    ),
-                  )),
-                  onPressed: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => Result()));
-                  },
-                ),
-                margin: EdgeInsets.all(5.0),
-                // color: Color(0xFF994CD3),
-                height: bottomCheight,
-                width: double.infinity,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(15.0),
-                  color: Color(0xFF994CD3),
-                ),
+              BottomButton(
+                onTap: () {
+                  double w = double.parse(weight);
+                  print(w);
+                  Calculate calc = Calculate(height: height, weight: w.toInt());
+
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => Result(calc.calculateBMI(),
+                              calc.getDesc(), calc.getResult())));
+                },
+                string: 'Calculate',
               ),
             ]));
   }
